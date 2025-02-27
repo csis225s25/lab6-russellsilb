@@ -18,10 +18,12 @@ public class MouseDemo implements Runnable, MouseListener, MouseMotionListener, 
 	@Override
 	public void run() {
 
+
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame frame = new JFrame("MouseDemo");
 		frame.setPreferredSize(new Dimension(500, 500));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		String toDisplay = "Mouse Around and See!";
 
 		// construct an anonymous class that extends JPanel,
 		// for which we override the paintComponent method
