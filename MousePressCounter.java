@@ -1,68 +1,59 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
 
-/**
- * Lab 5 demo of mouse events.
- * 
- * @author Jim Teresco
- * @author Ira Goldstein
- * @version Spring 2025
- */
-public class MousePressCounter implements Runnable, MouseListener {
-    int count = 0;
-	
-	/**
-	 * The run method to set up the graphical user interface
-	 */
-	@Override
-	public void run() {
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.FlowLayout;
+import java.awt.Font;
+public class MousePressCounter  extends JFrame  {
+JButton reset;
+    private int count = 0;
 
+    public MousePressCounter () {
+        setTitle("Repaint Example");
+        setSize(500, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JFrame frame = new JFrame("MouseDemo");
-		frame.setPreferredSize(new Dimension(500, 500));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		String toDisplay = "Mouse Around and See!";
-        
-
-		// construct an anonymous class that extends JPanel,
-		// for which we override the paintComponent method
-		JPanel panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-
-				super.paintComponent(g);
-
-				FontMetrics fm = g.getFontMetrics();
-
-				toDisplay = "Mouse press count:" + count;
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.black);
+                FontMetrics fm = g.getFontMetrics();
+				String toDisplay = "Mouse press count: ";
 				int stringWidth = fm.stringWidth(toDisplay);
 				int stringAscent = fm.getAscent();
-
 				int xStart = getWidth() / 2 - stringWidth / 2;
 				int yStart = getHeight() / 2 + stringAscent / 2;
-
-				g.drawString(toDisplay, xStart, yStart);
+				g.drawString(toDisplay + count, xStart, yStart);
                 
-			}
-		};
-		frame.add(panel);
-		panel.addMouseListener(this);
+           
+        
+            }
+        };
+       
+        
+    panel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            count++;
+            repaint();
+        }
+    });
 
-		// display the window we've created
-		frame.pack();
-		frame.setVisible(true);
-	}
+        add(panel);
+        setVisible(true);
+    }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-        count++;
-        toDisplay.paintComponent(e);
-	}
-
-	public static void main(String args[]) {
-		javax.swing.SwingUtilities.invokeLater(new MousePressCounter());
-	}
+    public static void main(String[] args) {
+        new MousePressCounter ();
+    }
 }
