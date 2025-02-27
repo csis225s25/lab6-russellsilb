@@ -23,7 +23,12 @@ class GraphicsPanel extends JPanel {
         // the Graphics object passed to this method has many methods
         // we can use to draw in the area of the panel, one of which
         // allows us to draw a String at a given x,y position
-        g.drawString("Hello, Java Graphics World!", 0, 20);
+        FontMetrics fm = g.getFontMetrics();
+        Font newFont = new Font("Playbill", Font.PLAIN, 30);
+        JLabel label = new JLabel("text");
+        g.setFont(newFont);
+  
+        g.drawString("Hello, Java Graphics World!", getWidth()/2- fm.stringWidth("Hello, Java Graphics World!")/2, getHeight()/2- fm.getAscent()/2);
     }
 }
 
@@ -38,11 +43,13 @@ public class HelloGraphics implements Runnable {
         // the usual JFrame setup steps
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("HelloGraphics");
-        frame.setPreferredSize(new Dimension(500, 500));
+        frame.setPreferredSize(new Dimension(1000, 1000));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+       
         // construct JPanel with a custom paintComponent method
         JPanel panel = new GraphicsPanel();
+        panel.setBackground(Color.red);
+        panel.setForeground(Color.blue);
         frame.add(panel);
 
         // display the window we've created
