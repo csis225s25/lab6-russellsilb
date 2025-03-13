@@ -4,16 +4,17 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * Lab 5 demo of mouse events.
+ * Lab 6 demo of mouse events.
  * 
- * @author Jim Teresco
- * @author Ira Goldstein
+ * @author Zhoxi, Russell
  * @version Spring 2025
  */
-public class MousePressCounter implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener {
+public class MousePressCounter implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener, ActionListener {
+	//instance variables
     String toDisplay;
     int count;
     JPanel panel;
+	JButton resetButton;
 
 	/**
 	 * The run method to set up the graphical user interface
@@ -29,7 +30,7 @@ public class MousePressCounter implements Runnable, MouseListener, MouseMotionLi
 
 		// construct an anonymous class that extends JPanel,
 		// for which we override the paintComponent method
-		panel = new JPanel() {
+		panel = new JPanel(new BorderLayout()) {
 			@Override
 			public void paintComponent(Graphics g) {
 
@@ -37,7 +38,7 @@ public class MousePressCounter implements Runnable, MouseListener, MouseMotionLi
 
 				FontMetrics fm = g.getFontMetrics();
 
-				toDisplay = "Mouse count " + count;
+				toDisplay = "Mouse press count: " + count;
 				int stringWidth = fm.stringWidth(toDisplay);
 				int stringAscent = fm.getAscent();
 
@@ -47,6 +48,15 @@ public class MousePressCounter implements Runnable, MouseListener, MouseMotionLi
 				g.drawString(toDisplay, xStart, yStart);
 			}
 		};
+		// create a button
+		resetButton = new JButton("Reset");
+		// create a panel for the button
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(resetButton);
+		panel.add(buttonPanel, BorderLayout.SOUTH);
+
+		resetButton.addActionListener(this);
+
 		frame.add(panel);
 		panel.addMouseListener(this);
 		panel.addMouseMotionListener(this);
@@ -57,6 +67,7 @@ public class MousePressCounter implements Runnable, MouseListener, MouseMotionLi
 		frame.setVisible(true);
 	}
 
+	//increase the count when the mouse is clicked
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		count++;
@@ -100,5 +111,12 @@ public class MousePressCounter implements Runnable, MouseListener, MouseMotionLi
 
 	public static void main(String args[]) {
 		javax.swing.SwingUtilities.invokeLater(new MousePressCounter());
+	}
+
+	//reset the count when the button is clicked
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		count = 0;
+		panel.repaint();
 	}
 }

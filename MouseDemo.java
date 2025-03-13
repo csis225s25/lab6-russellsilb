@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * Lab 5 demo of mouse events.
+ * Lab 6 demo of mouse events.
  * 
  * @author Jim Teresco
  * @author Ira Goldstein
